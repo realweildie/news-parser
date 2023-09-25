@@ -1,0 +1,35 @@
+.NewsCard {
+  background-color: var(--secondary-bg-color);
+  border-radius: var(--primary-border-radius);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--primary-color);
+
+  transition: transform 0.1s;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.newsThumb {
+  position: relative;
+  padding-bottom: 70%;
+
+  .newsImg {
+    position: absolute;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.description {
+  padding: 10px;
+}
+
+.date {
+  color: var(--secondary-color);
+  font: var(--font-s);
+}

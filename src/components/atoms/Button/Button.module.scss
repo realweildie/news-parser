@@ -1,0 +1,21 @@
+.Button {
+  padding: 5px 10px;
+  background: transparent;
+  border: var(--primary-border) var(--primary-elements-color);
+  border-radius: var(--primary-border-radius);
+  color: var(--primary-elements-color);
+  cursor: pointer;
+  transition: all 0.1s;
+
+  &:hover {
+    color: #fff;
+    background-color: var(--primary-elements-color-hover);
+    border-color: var(--primary-elements-color-hover);
+  }
+
+  &:active {
+    color: #fff;
+    background-color: var(--primary-elements-color-click);
+    border-color: var(--primary-elements-color-click);
+  }
+}
