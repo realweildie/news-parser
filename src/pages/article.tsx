@@ -1,9 +1,8 @@
+import Head from "next/head";
 import axios from "axios";
 import { apiToken } from "@/API/PostService";
 
-import "../app/styles/index.scss";
 import "./article.scss";
-import Head from "next/head";
 
 export interface ArticlePageProps {
   webPublicationDate: Date;
@@ -49,8 +48,6 @@ export async function getServerSideProps(context: any) {
   });
 
   const res = data.response.content;
-
-  console.log(res);
 
   return {
     props: {

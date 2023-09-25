@@ -1,5 +1,28 @@
-.NewsList{
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 20px;
+.NewsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.center {
+  display: flex;
+  justify-self: center;
+}
+
+@media screen and (max-width: 900px) {
+  .NewsList {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .NewsList {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .NewsList {
+    grid-template-columns: 1fr;
+  }
 }

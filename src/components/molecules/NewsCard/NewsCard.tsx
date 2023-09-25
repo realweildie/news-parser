@@ -1,24 +1,26 @@
-import React, { FC } from "react";
+import { FC, memo } from "react";
 import cls from "./NewsCard.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
+import noImageUrl from "@/assets/images/no_image.svg";
+
 interface NewsCardProps {
   title: string;
   date: Date;
-  image: string;
+  image?: string;
   apiUrl: string;
 }
 
-export const NewsCard: FC<NewsCardProps> = (props) => {
-  const { title, date, image, apiUrl } = props;
+export const NewsCard: FC<NewsCardProps> = memo((props) => {
+  const { title, date, image = noImageUrl, apiUrl } = props;
 
   const formatedDate = new Date(date).toDateString();
 
   return (
     <Link href={`/article?id=${apiUrl}`} className={cls.NewsCard}>
       <div className={cls.newsThumb}>
-        {/* <Image
+        <Image
           className={cls?.newsImg}
           width="0"
           height="0"
@@ -26,7 +28,7 @@ export const NewsCard: FC<NewsCardProps> = (props) => {
           style={{ width: "auto", height: "100%" }}
           alt={title}
           src={image}
-        /> */}
+        />
       </div>
       <div className={cls.description}>
         <span className={cls.date}>{formatedDate}</span>
@@ -34,4 +36,8 @@ export const NewsCard: FC<NewsCardProps> = (props) => {
       </div>
     </Link>
   );
-};
+});
+
+NewsCard.displayName = "NewsCard";
+
+export default NewsCard;

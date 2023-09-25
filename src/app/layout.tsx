@@ -1,5 +1,6 @@
-import "./styles/index.scss";
 import type { Metadata } from "next";
+import { StoreProvider } from "@/providers/StoreProvider/StoreProvider";
+import "./styles/index.scss";
 
 export const metadata: Metadata = {
   title: "News parser",
@@ -13,7 +14,9 @@ export default function SiteLayout({
 }) {
   return (
     <html lang="en">
-      <body className="app">{children}</body>
+      <body className="app">
+        <StoreProvider>{children}</StoreProvider>
+      </body>
     </html>
   );
 }

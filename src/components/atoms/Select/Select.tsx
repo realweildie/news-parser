@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import cls from "./Select.module.scss";
 
