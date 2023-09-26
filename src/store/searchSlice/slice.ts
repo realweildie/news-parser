@@ -1,5 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SearchSchema, fetchNewsType, sortType, statusType } from "./types";
+import {
+  SearchSchema,
+  UsableSearchParams,
+  fetchNewsType,
+  sortType,
+  statusType,
+} from "./types";
 import PostService from "@/API/PostService";
 import { clearNews, setNews } from "../newsSlice/slice";
 
@@ -46,8 +52,10 @@ const searchSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-    setInitialValues: (state, action: PayloadAction<SearchSchema>) => {
-      state = action.payload;
+    setDefaultParams: (state, action: PayloadAction<UsableSearchParams>) => {
+      state.searchVal = action.payload.searchVal;
+      state.itemsQuantity = action.payload.itemsQuantity;
+      state.sort = action.payload.sort;
     },
   },
   extraReducers: (builder) => {
@@ -70,6 +78,6 @@ export const {
   setQuantity,
   incrementPage,
   setCurrentPage,
-  setInitialValues,
+  setDefaultParams,
 } = searchSlice.actions;
 export default searchSlice.reducer;
