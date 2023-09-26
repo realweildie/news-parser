@@ -1,7 +1,7 @@
 "use client";
+import debounce from "lodash.debounce";
 
-import { useEffect, useState, useCallback } from "react";
-import { Button } from "@/components/atoms/Button";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Input } from "@/components/atoms/Input";
 import Form from "@/components/atoms/Form";
 import Select from "@/components/atoms/Select";
@@ -9,6 +9,7 @@ import Select from "@/components/atoms/Select";
 import { useSelector } from "react-redux";
 import { selectSearch } from "@/store/searchSlice/selectors";
 import { useAppDispatch } from "@/store/store";
+
 import {
   fetchNews,
   setSearchVal,
@@ -16,6 +17,7 @@ import {
   setQuantity,
 } from "@/store/searchSlice/slice";
 import { sortType } from "@/store/searchSlice/types";
+import { useFetching } from "@/hooks/useFetching";
 
 type sortUIType = {
   value: sortType;
@@ -30,20 +32,36 @@ const sorts: sortUIType[] = [
 
 export const SearchForm = () => {
   const [fetching, setFetching] = useState(false);
+  const isFirstRender = useRef(true);
+  const [textForFetching, setTextForFetching] = useState("");
 
   const dispatch = useAppDispatch();
   const search = useSelector(selectSearch);
 
-  useEffect(() => {
-    (async () => {
-      if (fetching) {
-        const res = await dispatch(fetchNews(search));
-        if (res) {
-          setFetching(false);
-        }
+  const [fetchNewsFromHook, isLoading, error] = useFetching(
+    async (needToClear?: boolean) => {
+      const res = await dispatch(fetchNews({ ...search, needToClear }));
+      if (res) {
+        setFetching(false);
       }
-    })();
-  }, [fetching, dispatch]);
+    }
+  );
+
+  useEffect(() => {
+    if (!isFirstRender.current) {
+      fetchNewsFromHook(true);
+    }
+  }, [search.itemsQuantity, search.searchVal, search.sort]);
+
+  useEffect(() => {
+    if (!isFirstRender.current && fetching) {
+      fetchNewsFromHook();
+    }
+  }, [fetching]);
+
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
 
   const scrollHandler = useCallback(
     // @ts-ignore
@@ -65,16 +83,16 @@ export const SearchForm = () => {
     };
   }, [scrollHandler]);
 
-  const onSubmitSearchForm = async (
-    event: React.SyntheticEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-    dispatch(fetchNews({ ...search, needToClear: true }));
-  };
+  const onChangeTextForFetching = useCallback(
+    debounce((str: string) => {
+      dispatch(setSearchVal(str));
+    }, 1500),
+    []
+  );
 
   const onChangeItem = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(setSearchVal(event.target.value));
+      onChangeTextForFetching(event.target.value);
     },
     [dispatch]
   );
@@ -94,17 +112,16 @@ export const SearchForm = () => {
   );
 
   return (
-    <Form onSubmit={onSubmitSearchForm}>
+    <Form>
       <Form.Item>
         <Input
           style={{ width: "100%" }}
           onChange={onChangeItem}
           placeholder={`Type new's title...`}
         />
-        <Button>Search</Button>
       </Form.Item>
       <Form.Item>
-        <Select onChange={onChangeFilter}>
+        <Select defaultValue={search.sort} onChange={onChangeFilter}>
           {sorts.map(({ value, label }) => (
             <Select.Option key={value} value={value}>
               {label}

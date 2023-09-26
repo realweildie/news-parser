@@ -16,6 +16,7 @@
     "axios": "^1.5.0",
     "eslint": "8.50.0",
     "eslint-config-next": "13.5.2",
+    "lodash.debounce": "^4.0.8",
     "next": "13.5.2",
     "qs": "^6.11.2",
     "react": "18.2.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/html-parser": "^0.11.3",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/qs": "^6.9.8",
     "eslint-config-prettier": "^9.0.0",
     "sass": "^1.68.0"

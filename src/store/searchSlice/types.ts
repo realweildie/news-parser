@@ -22,3 +22,5 @@ export interface SearchSchema {
 export interface fetchNewsType extends SearchSchema {
   needToClear?: boolean;
 }
+
+export type UsableSearchParams = Omit<SearchSchema, "currentPage" | "status">;
