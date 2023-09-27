@@ -48,20 +48,14 @@ export const SearchForm = () => {
   );
 
   useEffect(() => {
-    if (!isFirstRender.current) {
-      fetchNewsFromHook(true);
-    }
+    fetchNewsFromHook(true);
   }, [search.itemsQuantity, search.searchVal, search.sort]);
 
   useEffect(() => {
-    if (!isFirstRender.current && fetching) {
+    if (fetching) {
       fetchNewsFromHook();
     }
   }, [fetching]);
-
-  useEffect(() => {
-    isFirstRender.current = false;
-  }, []);
 
   const scrollHandler = useCallback(
     // @ts-ignore
